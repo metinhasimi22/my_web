@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metin Hasimi - Kişisel Web Sitesi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Genel Stil */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #F9F9F9;
+            color: #333;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f4f4f9;
+        }
+
+        /* Başlık ve Navigasyon */
+        header {
+            background: linear-gradient(135deg, #4A90E2 0%, #50E3C2 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 10px 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #FF6B6B;
+        }
+
+        /* Ana İçerik */
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 60px;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark-mode section {
+            background-color: #2a2a2a;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: #4A90E2;
+            border-bottom: 2px solid #4A90E2;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.1em;
+            color: #555;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode p {
+            color: #ccc;
+        }
+
+        /* Galeri */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* İletişim Formu */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        form input, form textarea, form button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode form input, 
+        body.dark-mode form textarea, 
+        body.dark-mode form button {
+            background-color: #333;
+            border-color: #555;
+            color: #f4f4f9;
+        }
+
+        form button {
+            background: #4A90E2;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background: #50E3C2;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #4A90E2 0%, #50E3C2 100%);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icons {
+            margin-top: 10px;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5em;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #FF6B6B;
+        }
+
+        /* Animasyonlar */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 1s ease-in-out;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+            background: #50E3C2;
+        }
+
+        /* CV Bilgileri */
+        .cv-section {
+            margin-bottom: 40px;
+        }
+
+        .cv-section h3 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .cv-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .cv-section ul li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .cv-section ul li strong {
+            color: #4A90E2;
+        }
+
+        /* Portföy Öğeleri */
+        .portfolio-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .portfolio-item h3 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .portfolio-item a {
+            color: #4A90E2;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .portfolio-item a:hover {
+            color: #50E3C2;
+        }
+
+        /* İlerleme Çubukları */
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar div {
+            height: 10px;
+            background: #4A90E2;
+            border-radius: 10px;
+        }
+
+        /* Blog Bölümü */
+        .blog-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .blog-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-item h3 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .blog-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .blog-item a {
+            color: #4A90E2;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .blog-item a:hover {
+            color: #50E3C2;
+        }
+
+        /* Hizmetler Bölümü */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .service-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-item h3 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .service-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* İstatistikler Bölümü */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-item h3 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .stat-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* Müşteri Yorumları Bölümü */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .testimonial-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-item h3 {
+            color: #4A90E2;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-item p {
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive Tasarım */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        /* Hakkımda Bölümü */
+.about-content {
+    text-align: center; /* Tüm içeriği ortalar */
+}
+
+.profile-container {
+    margin-bottom: 30px; /* Resim ve isim arasında boşluk bırakır */
+}
+
+.profile-image {
+    width: 200px; /* Resmin genişliği */
+    height: 200px; /* Resmin yüksekliği */
+    border-radius: 10px; /* Resmin köşelerini yuvarlar */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Hafif bir gölge efekti */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05); /* Resmin üzerine gelindiğinde büyümesi */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Gölgeyi artırır */
+}
+
+.profile-name {
+    margin-top: 15px; /* Resim ile isim arasında boşluk bırakır */
+    font-size: 1.5em; /* İsim yazısının boyutu */
+    color: #4A90E2; /* İsim rengi */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* İsme gölge efekti ekler */
+}
+    </style>
+</head>
+<body>
+
+    <!-- Başlık ve Navigasyon -->
+    <header>
+        <h1 class="fade-in">Metin Hasimi</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">Hakkımda</a></li>
+                <li><a href="#services">Hizmetler</a></li>
+                <li><a href="#portfolio">Portföy</a></li>
+                <li><a href="#cv">CV</a></li>
+                <li><a href="#blog">Blog</a></li>
+                <li><a href="#contact">İletişim</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Ana İçerik -->
+    <main>
+        <!-- Hakkımda Bölümü -->
+        <section id="about">
+            <div class="about-content">
+                <div class="profile-container">
+                    <!--<img src="metin_hasimi_resim.jpg" alt="Metin Hasimi" class="profile-image">-->
+                    <h2 class="profile-name">Metin Hasimi</h2>
+                </div>
+                <p>Van Yüzüncü Yıl Üniversitesi Bilgisayar Programcılığı bölümünden mezun oldum. Özellikle Python ve yapay zeka alanlarına odaklanarak çeşitli eğitimlere katıldım. Yapay zeka, derin öğrenme gibi konularda bilgi sahibiyim ve bu alanlarda projeler gerçekleştirdim. Ek olarak, HTML, CSS, Siber Güvenlik, C#, C++, JS, SQL, PHP gibi programlama dillerinde ve MVC, Network gibi alanlarda tecrübe kazandım. Şu an, kariyerimi yapay zeka ve derin öğrenme üzerine şekillendiriyorum ve bu alanda daha ileri seviye projelerde yer almak istiyorum ve kendimi geliştiriyorum.</p>
+            </div>
+        </section>
+
+        <!-- Hizmetler Bölümü -->
+        <section id="services">
+            <h2>Hizmetler</h2>
+            <div class="services">
+                <div class="service-item">
+                    <h3>Web Geliştirme</h3>
+                    <p>Modern ve responsive web siteleri geliştiriyorum.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Yapay Zeka</h3>
+                    <p>Makine öğrenmesi ve derin öğrenme projeleri üzerinde çalışıyorum.</p>
+                </div>
+                <div class="service-item">
+                    <h3>Veri Analizi</h3>
+                    <p>Veri analizi ve görselleştirme hizmetleri sunuyorum.</p>
+                </div>
+            </div>
+        </section>
+
+
+        
+
+        <!-- Portföy Bölümü -->
+        <section id="portfolio">
+            <h2>Portföy</h2>
+            <div class="gallery">
+                <div class="portfolio-item">
+                    <h3>Kaggle Projesi: Titanic Survival Prediction</h3>
+                    <p>Bu projede, Titanic felaketindeki yolcuların hayatta kalma durumlarını tahmin etmek için makine öğrenmesi modelleri kullanıldı.</p>
+                    <a href="https://www.kaggle.com/code/metinhsimimi/titanic-eda-classificatin-deep-learning" target="_blank">Projeye Git</a>
+                </div>
+                <div class="portfolio-item">
+                    <h3>Kaggle Projesi: House Prices Prediction</h3>
+                    <p>Bu projede, ev fiyatlarını tahmin etmek için çeşitli regresyon modelleri kullanıldı.</p>
+                    <a href="https://www.kaggle.com/code/metinhsimimi/advanced-house-price" target="_blank">Projeye Git</a>
+                </div>
+                <div class="portfolio-item">
+                    <h3>Kaggle Projesi: MNIST Digit Recognition</h3>
+                    <p>Bu projede, MNIST veri setindeki el yazısı rakamları tanımak için derin öğrenme modelleri kullanıldı.</p>
+                    <a href="https://www.kaggle.com/code/metinhsimimi/what-is-the-cnn-wtih-mnist-turkish" target="_blank">Projeye Git</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CV Bölümü -->
+        <section id="cv">
+            <h2>CV</h2>
+            <div class="cv-section">
+                <h3>İş Deneyimi</h3>
+                <ul>
+                    <li><strong>Sekreterlik</strong> (2023) - Müşterilere ürünler hakkında detaylı bilgi sunarak satış ve pazarlama süreçlerine destek sağladım. İletişim becerilerimi kullanarak müşteri memnuniyetini artırdım.</li>
+                    <li><strong>Garsonluk</strong> - Çeşitli restoranlarda garson olarak çalıştım. Müşteri memnuniyetini ön planda tutarak hızlı ve etkili hizmet sunmayı öğrendim.</li>
+                </ul>
+            </div>
+            <div class="cv-section">
+                <h3>Eğitim</h3>
+                <ul>
+                    <li><strong>Van Yüzüncü Yıl Üniversitesi</strong> - Bilgisayar Programcılığı (2022-2024, GNO: 3.60)</li>
+                </ul>
+            </div>
+            <div class="cv-section">
+                <h3>Yetenekler</h3>
+                <ul>
+                    <li><strong>Programlama Dilleri:</strong> Python, C#, C++, JS, SQL, PHP, HTML, CSS</li>
+                    <li><strong>Yapay Zeka:</strong> Machine Learning, Deep Learning, Data Science</li>
+                    <li><strong>Diğer:</strong> MVC Framework, Siber Güvenlik, Network</li>
+                    <li><strong>Dil:</strong> A2 İngilizce</li>
+                    <li><strong>Ehliyet:</strong> B Tipi</li>
+                </ul>
+            </div>
+            <div class="cv-section">
+                <h3>Referanslar</h3>
+                <ul>
+                    <li><strong>Safa OFLAŞ</strong> - Araştırma Görevlisi (Phone: 0 541 262 27 47, Email: s_oflaş@hotmail.com)</li>
+                    <li><strong>Zafer ACAR</strong> - CERN Araştırmacısı (Phone: +1 (310) 954-6406, Email: zaferacar@gmail.com)</li>
+                    <li><strong>Ercan YILDIZAYDIN</strong> - Store Manager (Phone: 0 541 698 05 25)</li>
+                </ul>
+            </div>
+            <div class="cv-section">
+                <h3>Çalışmalarım</h3>
+                <ul>
+                    <li><strong>GitHub:</strong> <a href="https://github.com/metinhasimi22" target="_blank">github.com/metinhasimi22</a></li>
+                    <li><strong>Hugging Face:</strong> <a href="https://huggingface.co/Metinhsimi" target="_blank">huggingface.co/Metinhsimi</a></li>
+                    <li><strong>Kaggle:</strong> <a href="https://www.kaggle.com/metinhsimimi" target="_blank">kaggle.com/metinhsimimi</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Blog Bölümü -->
+        <section id="blog">
+            <h2>Blog</h2>
+            <div class="gallery">
+                <div class="blog-item">
+                    <h3>Yapay Zeka ve Gelecek</h3>
+                    <p>Yapay zeka teknolojilerinin gelecekteki etkileri ve potansiyel kullanım alanları hakkında bir yazı.</p>
+                    <a href="#">Devamını Oku</a>
+                </div>
+                <div class="blog-item">
+                    <h3>Python ile Veri Analizi</h3>
+                    <p>Python kullanarak veri analizi yapmanın temelleri ve önemli kütüphaneler hakkında bir rehber.</p>
+                    <a href="#">Devamını Oku</a>
+                </div>
+                <div class="blog-item">
+                    <h3>Derin Öğrenme Nedir?</h3>
+                    <p>Derin öğrenme kavramı, nasıl çalıştığı ve gerçek dünya uygulamaları hakkında bir açıklama.</p>
+                    <a href="#">Devamını Oku</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- İstatistikler Bölümü -->
+        <section id="stats">
+            <h2>İstatistikler</h2>
+            <div class="stats">
+                <div class="stat-item">
+                    <h3>Projeler</h3>
+                    <p>50+</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Müşteriler</h3>
+                    <p>100+</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Deneyim</h3>
+                    <p>5 Yıl</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Müşteri Yorumları Bölümü -->
+        <section id="testimonials">
+            <h2>Müşteri Yorumları</h2>
+            <div class="testimonials">
+                <div class="testimonial-item">
+                    <h3>Ahmet Yılmaz</h3>
+                    <p>Metin ile çalışmak harikaydı. Projelerini zamanında teslim etti ve her zaman iletişim halindeydi.</p>
+                </div>
+                <div class="testimonial-item">
+                    <h3>Ayşe Kaya</h3>
+                    <p>Yapay zeka projemizde bize çok yardımcı oldu. Kesinlikle tavsiye ederim.</p>
+                </div>
+                <div class="testimonial-item">
+                    <h3>Mehmet Demir</h3>
+                    <p>Web sitemizi yeniledi ve çok memnun kaldık. Profesyonel bir iş çıkardı.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- İletişim Bölümü -->
+        <section id="contact">
+            <h2>İletişim</h2>
+            <form id="contactForm">
+                <input type="text" id="name" placeholder="Adınız" required>
+                <input type="email" id="email" placeholder="E-posta Adresiniz" required>
+                <textarea id="message" rows="5" placeholder="Mesajınız" required></textarea>
+                <input type="file" id="file" accept=".pdf,.doc,.docx">
+                <div class="g-recaptcha" data-sitekey="your-site-key"></div>
+                <button type="submit">Gönder</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2023 Metin Hasimi. Tüm hakları saklıdır.</p>
+        <div class="social-icons">
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <img src="" alt="Büyütülmüş Resim" id="modalImage">
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Dil Seçenekleri -->
+    <div class="language-switcher">
+        <a href="#" onclick="changeLanguage('tr')">Türkçe</a>
+        <a href="#" onclick="changeLanguage('en')">English</a>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Galeri Resimlerine Tıklama
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                modalImage.src = item.src;
+                modal.classList.add('open');
+            });
+        });
+
+        // Modal'ı Kapatma
+        modal.addEventListener('click', () => {
+            modal.classList.remove('open');
+        });
+
+        // İletişim Formu Gönderimi
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Mesajınız başarıyla gönderildi!');
+            contactForm.reset();
+        });
+
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDarkMode = body.classList.contains('dark-mode');
+            darkModeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('darkMode', isDarkMode);
+        });
+
+        // Dark Mode_preference from localStorage
+        const savedDarkMode = localStorage.getItem('darkMode');
+        if (savedDarkMode === 'true') {
+            body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Dil Değiştirme
+        function changeLanguage(lang) {
+            alert('Dil değiştirildi: ' + lang);
+            // Dil değiştirme işlemleri burada yapılabilir.
+        }
+
+        // Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-XXXXX-X');
+    </script>
+</body>
+</html>
